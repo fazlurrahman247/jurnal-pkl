@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Riwayat Jurnal PKL - Fazlur Rahman</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="profile-section">
+          <div class="avatar">
+            <i class="fas fa-user-graduate"></i>
+          </div>
+          <div class="profile-info">
+            <h1>Fazlur Rahman</h1>
+            <p class="company">
+              <i class="fas fa-building"></i> Balai Penyuluhan KB
+            </p>
+            <p class="duration">
+              <i class="fas fa-calendar-alt"></i> 4 Feb 2026 - 30 Jun 2026
+            </p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <a href="entry.html" class="btn btn-primary">
+            <i class="fas fa-plus-circle"></i> Entri Baru
+          </a>
+          <div class="action-toolbar">
+            <button
+              class="toolbar-btn"
+              onclick="exportToPDF()"
+              title="Export PDF"
+            >
+              <i class="fas fa-file-pdf"></i>
+            </button>
+            <button
+              class="toolbar-btn"
+              onclick="exportToExcel()"
+              title="Export Excel"
+            >
+              <i class="fas fa-file-excel"></i>
+            </button>
+            <button
+              class="toolbar-btn"
+              onclick="backupData()"
+              title="Backup Data"
+            >
+              <i class="fas fa-download"></i>
+            </button>
+            <button
+              class="toolbar-btn"
+              onclick="document.getElementById('restoreFile').click()"
+              title="Restore Data"
+            >
+              <i class="fas fa-upload"></i>
+            </button>
+            <input
+              type="file"
+              id="restoreFile"
+              accept=".json"
+              style="display: none"
+              onchange="restoreData(this)"
+            />
+            <button class="toolbar-btn" onclick="printJournal()" title="Cetak">
+              <i class="fas fa-print"></i>
+            </button>
+          </div>
+          <a href="history.html" class="btn btn-secondary">
+            <i class="fas fa-history"></i> Riwayat
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- History Section -->
+        <section class="card history-section">
+          <div class="card-header">
+            <h2><i class="fas fa-history"></i> Riwayat Jurnal</h2>
+            <div class="filter-section">
+              <select
+                id="monthFilter"
+                class="filter-select"
+                onchange="filterJournals()"
+              >
+                <option value="">Semua Bulan</option>
+                <option value="2026-02">Februari 2026</option>
+                <option value="2026-03">Maret 2026</option>
+                <option value="2026-04">April 2026</option>
+                <option value="2026-05">Mei 2026</option>
+                <option value="2026-06">Juni 2026</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-container">
+            <table id="journalTable" class="journal-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Tanggal</th>
+                  <th>Status</th>
+                  <th>Jam Datang</th>
+                  <th>Jam Pulang</th>
+                  <th>Tugas yang Disuruh</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="journalTableBody"></tbody>
+            </table>
+            <div id="emptyState" class="empty-state">
+              <i class="fas fa-book-open"></i>
+              <p>Belum ada entri jurnal</p>
+              <span>Mulai tulis jurnal pertama Anda!</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <p class="entry-count">
+              Total Entri: <span id="entryCount">0</span>
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>© 2026 Jurnal PKL - Fazlur Rahman | Balai Penyuluhan KB</p>
+      </footer>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+      <div class="modal-content modal-large">
+        <h3><i class="fas fa-edit"></i> Edit Entri Jurnal</h3>
+        <form id="editForm" class="journal-form">
+          <input type="hidden" id="editIndex" />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editDate"
+                ><i class="fas fa-calendar"></i> Tanggal</label
+              >
+              <input type="date" id="editDate" name="date" required />
+            </div>
+            <div class="form-group">
+              <label for="editStatus"
+                ><i class="fas fa-user-check"></i> Status Kehadiran</label
+              >
+              <select id="editStatus" name="status" required>
+                <option value="Hadir">Hadir</option>
+                <option value="Izin">Izin</option>
+                <option value="Sakit">Sakit</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editArrivalTime"
+                ><i class="fas fa-sign-in-alt"></i> Jam Datang</label
+              >
+              <input type="time" id="editArrivalTime" name="arrivalTime" />
+            </div>
+            <div class="form-group">
+              <label for="editDepartureTime"
+                ><i class="fas fa-sign-out-alt"></i> Jam Pulang</label
+              >
+              <input type="time" id="editDepartureTime" name="departureTime" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="editTask"
+              ><i class="fas fa-tasks"></i> Tugas yang Disuruh</label
+            >
+            <textarea id="editTask" name="task" rows="4"></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Simpan Perubahan
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeEditModal()"
+            >
+              <i class="fas fa-times"></i> Batal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="confirmModal" class="modal">
+      <div class="modal-content">
+        <h3>Konfirmasi Hapus</h3>
+        <p>Apakah Anda yakin ingin menghapus entri jurnal ini?</p>
+        <div class="modal-actions">
+          <button class="btn btn-danger" onclick="confirmDelete()">
+            <i class="fas fa-trash"></i> Hapus
+          </button>
+          <button class="btn btn-outline" onclick="closeModal()">Batal</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script-history.js"></script>
+  </body>
+</html>
