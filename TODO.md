@@ -1,24 +1,19 @@
-# Jurnal PKL - Completed
+# TODO - Import JSON/CSV Feature
 
-## Files Created:
+## Task
 
-- index.html - Redirect to entry.html
-- entry.html - Form page for journal entry
-- history.html - Table display with edit/delete
-- style.css - All styling
-- script-entry.js - Form handling
-- script-history.js - Table, edit, delete, export, backup/restore
-- script.js - Original (unused)
+T jurnalambahkan fitur import data via JSON/CSV
 
-## Features Implemented:
+## Steps
 
-✅ Form entry (Tanggal, Status, Jam Datang, Jam Pulang, Tugas)
-✅ History table with status column
-✅ Edit functionality
-✅ Delete functionality
-✅ Filter by month
-✅ Export to PDF
-✅ Export to Excel (CSV)
-✅ Backup data
-✅ Restore data
-✅ Print
+- [x] 1. Understand the project structure and data format
+- [ ] 2. Update history.html to accept both .json and .csv files
+- [ ] 3. Update script-history.js to handle CSV parsing and import
+- [ ] 4. Test the implementation
+
+## Progress
+
+- [x] Step 1: Analyze project structure - DONE
+- [x] Step 2: Update history.html - DONE
+- [x] Step 3: Update script-history.js - DONE
+- [ ] Step 4: Test implementation - PENDING

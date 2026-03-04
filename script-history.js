@@ -304,37 +304,140 @@ function backupData() {
   showNotification("Backup data berhasil!", "success");
 }
 
-// ===== Restore Data =====
+// ===== Restore Data (JSON/CSV) =====
 function restoreData(input) {
   const file = input.files[0];
   if (!file) return;
 
+  const fileName = file.name.toLowerCase();
   const reader = new FileReader();
+
   reader.onload = function (e) {
     try {
-      const restoredData = JSON.parse(e.target.result);
-      if (Array.isArray(restoredData)) {
-        if (
-          confirm(
-            `Akan menghapus ${journals.length} data lama dan menggantinya dengan ${restoredData.length} data?`,
-          )
-        ) {
-          journals = restoredData;
-          saveJournals();
-          renderTable();
-          showNotification("Data berhasil direstore!", "success");
+      if (fileName.endsWith(".json")) {
+        // Parse JSON file
+        const restoredData = JSON.parse(e.target.result);
+        if (Array.isArray(restoredData)) {
+          if (
+            confirm(
+              `Akan menghapus ${journals.length} data lama dan menggantinya dengan ${restoredData.length} data?`,
+            )
+          ) {
+            journals = restoredData;
+            saveJournals();
+            renderTable();
+            showNotification("Data JSON berhasil diimport!", "success");
+          }
+        } else {
+          showNotification("Format file JSON tidak valid!", "error");
+        }
+      } else if (fileName.endsWith(".csv")) {
+        // Parse CSV file
+        const restoredData = parseCSV(e.target.result);
+        if (restoredData.length > 0) {
+          if (
+            confirm(
+              `Akan mengimport ${restoredData.length} data dari CSV? Data lama akan ditimpa.`,
+            )
+          ) {
+            journals = restoredData;
+            saveJournals();
+            renderTable();
+            showNotification("Data CSV berhasil diimport!", "success");
+          }
+        } else {
+          showNotification("Format file CSV tidak valid atau kosong!", "error");
         }
       } else {
-        showNotification("Format file tidak valid!", "error");
+        showNotification("Format file tidak didukung!", "error");
       }
     } catch (err) {
+      console.error(err);
       showNotification("Gagal membaca file!", "error");
     }
   };
+
   reader.readAsText(file);
 
   // Reset input
   input.value = "";
+}
+
+// ===== Parse CSV =====
+function parseCSV(csvText) {
+  const lines = csvText.trim().split("\n");
+  if (lines.length < 2) return [];
+
+  // Parse header
+  const headers = parseCSVLine(lines[0]).map((h) => h.toLowerCase().trim());
+
+  // Map CSV columns to journal fields
+  const dateIndex = headers.findIndex((h) => h === "tanggal" || h === "date");
+  const statusIndex = headers.findIndex((h) => h === "status");
+  const arrivalIndex = headers.findIndex(
+    (h) => h === "jam datang" || h === "arrivaltime" || h === "arrival",
+  );
+  const departureIndex = headers.findIndex(
+    (h) => h === "jam pulang" || h === "departuretime" || h === "departure",
+  );
+  const taskIndex = headers.findIndex(
+    (h) => h === "tugas" || h === "task" || h === "tugas yang disuruh",
+  );
+
+  if (dateIndex === -1) {
+    showNotification("Kolom Tanggal tidak ditemukan di CSV!", "error");
+    return [];
+  }
+
+  const journalsData = [];
+  for (let i = 1; i < lines.length; i++) {
+    const values = parseCSVLine(lines[i]);
+    if (values.length === 0) continue;
+
+    const journal = {
+      date: values[dateIndex] || "",
+      status: statusIndex !== -1 ? values[statusIndex] : "Hadir",
+      arrivalTime: arrivalIndex !== -1 ? values[arrivalIndex] : "",
+      departureTime: departureIndex !== -1 ? values[departureIndex] : "",
+      task: taskIndex !== -1 ? values[taskIndex] : "",
+      createdAt: new Date().toISOString(),
+    };
+
+    // Validate date format (YYYY-MM-DD)
+    if (journal.date && journal.date.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      journalsData.push(journal);
+    }
+  }
+
+  return journalsData;
+}
+
+// ===== Parse CSV Line =====
+function parseCSVLine(line) {
+  const result = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+
+    if (char === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === "," && !inQuotes) {
+      result.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  result.push(current.trim());
+  return result;
 }
 
 // ===== Print Journal =====
