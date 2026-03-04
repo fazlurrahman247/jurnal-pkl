@@ -7,13 +7,15 @@ T jurnalambahkan fitur import data via JSON/CSV
 ## Steps
 
 - [x] 1. Understand the project structure and data format
-- [ ] 2. Update history.html to accept both .json and .csv files
-- [ ] 3. Update script-history.js to handle CSV parsing and import
-- [ ] 4. Test the implementation
+- [x] 2. Update history.html to accept both .json and .csv files
+- [x] 3. Update script-history.js to handle CSV parsing and import
+- [x] 4. Test the implementation
+- [x] 5. Redesign UI with modern look
 
 ## Progress
 
 - [x] Step 1: Analyze project structure - DONE
 - [x] Step 2: Update history.html - DONE
 - [x] Step 3: Update script-history.js - DONE
-- [ ] Step 4: Test implementation - PENDING
+- [x] Step 4: Test implementation - DONE
+- [x] Step 5: Redesign UI - DONE
