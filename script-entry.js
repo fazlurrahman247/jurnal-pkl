@@ -1,9 +1,90 @@
 // ===== Entry Page JavaScript =====
 
 const STORAGE_KEY = "pkl_jurnal_fazlurrahman";
+const PROFILE_KEY = "pkl_profile_settings";
+
+// ===== Default Profile =====
+const defaultProfile = {
+  name: "Fazlur Rahman",
+  location: "Balai Penyuluhan KB",
+  startDate: "2026-02-04",
+  endDate: "2026-06-30",
+};
+
+// ===== Format Date =====
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+// ===== Load Profile Settings =====
+function loadProfileSettings() {
+  const savedProfile = localStorage.getItem(PROFILE_KEY);
+  const profile = savedProfile ? JSON.parse(savedProfile) : defaultProfile;
+
+  document.getElementById("displayName").textContent =
+    profile.name || defaultProfile.name;
+  document.getElementById("displayLocation").textContent =
+    profile.location || defaultProfile.location;
+}
+
+// ===== Save Profile Settings =====
+function saveProfileSettings() {
+  const profile = {
+    name: document.getElementById("profileNameInput").value,
+    location: document.getElementById("profileLocationInput").value,
+    startDate: document.getElementById("profileStartDateInput").value,
+    endDate: document.getElementById("profileEndDateInput").value,
+  };
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+  loadProfileSettings();
+  showNotification("Profil berhasil diperbarui!", "success");
+}
+
+// ===== Open Profile Modal =====
+function openProfileModal() {
+  const savedProfile = localStorage.getItem(PROFILE_KEY);
+  const profile = savedProfile ? JSON.parse(savedProfile) : defaultProfile;
+
+  document.getElementById("profileNameInput").value = profile.name || "";
+  document.getElementById("profileLocationInput").value =
+    profile.location || "";
+  document.getElementById("profileStartDateInput").value =
+    profile.startDate || "";
+  document.getElementById("profileEndDateInput").value = profile.endDate || "";
+
+  document.getElementById("profileModal").style.display = "flex";
+}
+
+// ===== Close Profile Modal =====
+function closeProfileModal() {
+  document.getElementById("profileModal").style.display = "none";
+}
+
+// ===== Toggle Navbar (Mobile) =====
+function toggleNavbar() {
+  const navbarMenu = document.getElementById("navbarMenu");
+  navbarMenu.classList.toggle("active");
+}
 
 // ===== Initialize =====
 document.addEventListener("DOMContentLoaded", function () {
+  loadProfileSettings();
+
   // Set today's date as default
   document.getElementById("date").valueAsDate = new Date();
 
@@ -13,10 +94,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   document.getElementById("arrivalTime").value = `${hours}:${minutes}`;
 
-  // Event listener
+  // Event listener for form submission
   document
     .getElementById("journalForm")
     .addEventListener("submit", handleSubmit);
+
+  // Event listener for profile form
+  document
+    .getElementById("profileForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      saveProfileSettings();
+      closeProfileModal();
+    });
+
+  // Close modal on outside click
+  window.addEventListener("click", function (event) {
+    const modal = document.getElementById("profileModal");
+    if (event.target === modal) {
+      closeProfileModal();
+    }
+  });
 });
 
 // ===== Handle Form Submit =====

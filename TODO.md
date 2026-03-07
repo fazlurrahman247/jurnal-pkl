@@ -1,24 +1,21 @@
-# Jurnal PKL - Completed
+# Jurnal PKL - Project TODO
 
-## Files Created:
+## Completed Features
 
-- index.html - Redirect to entry.html
-- entry.html - Form page for journal entry
-- history.html - Table display with edit/delete
-- style.css - All styling
-- script-entry.js - Form handling
-- script-history.js - Table, edit, delete, export, backup/restore
-- script.js - Original (unused)
+### Navbar & Profile
 
-## Features Implemented:
+- [x] Modern navbar design with brand, profile info, and navigation links
+- [x] Modal popup for editing profile (name, location, dates)
+- [x] Toolbar for history page (PDF, Excel, Backup, Restore, Print)
+- [x] Fully responsive for mobile with hamburger menu
+- [x] Auto-save profile to localStorage
 
-✅ Form entry (Tanggal, Status, Jam Datang, Jam Pulang, Tugas)
-✅ History table with status column
-✅ Edit functionality
-✅ Delete functionality
-✅ Filter by month
-✅ Export to PDF
-✅ Export to Excel (CSV)
-✅ Backup data
-✅ Restore data
-✅ Print
+### Profile Settings
+
+- [x] Name input field
+- [x] Location PKL input field
+- [x] Start date and end date (duration)
+- [x] Data persists across pages
+- [x] Export PDF uses dynamic profile data
+
+## Status: All Completed ✅

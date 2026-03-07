@@ -1,18 +1,120 @@
 // ===== History Page JavaScript =====
 
 const STORAGE_KEY = "pkl_jurnal_fazlurrahman";
+const PROFILE_KEY = "pkl_profile_settings";
 
 let journals = [];
 let deleteIndex = null;
 
+// ===== Default Profile =====
+const defaultProfile = {
+  name: "Fazlur Rahman",
+  location: "Balai Penyuluhan KB",
+  startDate: "2026-02-04",
+  endDate: "2026-06-30",
+};
+
+// ===== Format Date Short =====
+function formatDateShort(dateString) {
+  const date = new Date(dateString);
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+// ===== Load Profile Settings =====
+function loadProfileSettings() {
+  const savedProfile = localStorage.getItem(PROFILE_KEY);
+  const profile = savedProfile ? JSON.parse(savedProfile) : defaultProfile;
+
+  document.getElementById("displayName").textContent =
+    profile.name || defaultProfile.name;
+  document.getElementById("displayLocation").textContent =
+    profile.location || defaultProfile.location;
+}
+
+// ===== Save Profile Settings =====
+function saveProfileSettings() {
+  const profile = {
+    name: document.getElementById("profileNameInput").value,
+    location: document.getElementById("profileLocationInput").value,
+    startDate: document.getElementById("profileStartDateInput").value,
+    endDate: document.getElementById("profileEndDateInput").value,
+  };
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+  loadProfileSettings();
+  showNotification("Profil berhasil diperbarui!", "success");
+}
+
+// ===== Get Profile Data =====
+function getProfileData() {
+  const savedProfile = localStorage.getItem(PROFILE_KEY);
+  return savedProfile ? JSON.parse(savedProfile) : defaultProfile;
+}
+
+// ===== Open Profile Modal =====
+function openProfileModal() {
+  const profile = getProfileData();
+
+  document.getElementById("profileNameInput").value = profile.name || "";
+  document.getElementById("profileLocationInput").value =
+    profile.location || "";
+  document.getElementById("profileStartDateInput").value =
+    profile.startDate || "";
+  document.getElementById("profileEndDateInput").value = profile.endDate || "";
+
+  document.getElementById("profileModal").style.display = "flex";
+}
+
+// ===== Close Profile Modal =====
+function closeProfileModal() {
+  document.getElementById("profileModal").style.display = "none";
+}
+
+// ===== Toggle Navbar (Mobile) =====
+function toggleNavbar() {
+  const navbarMenu = document.getElementById("navbarMenu");
+  navbarMenu.classList.toggle("active");
+}
+
 // ===== Initialize =====
 document.addEventListener("DOMContentLoaded", function () {
   loadJournals();
+  loadProfileSettings();
 
   // Event listener for edit form
   document
     .getElementById("editForm")
     .addEventListener("submit", handleEditSubmit);
+
+  // Event listener for profile form
+  document
+    .getElementById("profileForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      saveProfileSettings();
+      closeProfileModal();
+    });
+
+  // Close modal on outside click
+  window.addEventListener("click", function (event) {
+    const profileModal = document.getElementById("profileModal");
+    if (event.target === profileModal) {
+      closeProfileModal();
+    }
+  });
 });
 
 // ===== Load from LocalStorage =====
@@ -184,6 +286,7 @@ function confirmDelete() {
 // ===== Export to PDF =====
 function exportToPDF() {
   const printWindow = window.open("", "_blank");
+  const profile = getProfileData();
 
   const journalData = journals
     .map(
@@ -205,7 +308,7 @@ function exportToPDF() {
     <html lang="id">
     <head>
       <meta charset="UTF-8">
-      <title>Jurnal PKL - Fazlur Rahman</title>
+      <title>Jurnal PKL - ${profile.name || "Fazlur Rahman"}</title>
       <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
         h1 { text-align: center; color: #2C3E50; }
@@ -219,9 +322,9 @@ function exportToPDF() {
     <body>
       <h1>Jurnal PKL</h1>
       <div class="header">
-        <p><strong>Nama:</strong> Fazlur Rahman</p>
-        <p><strong>Perusahaan:</strong> Balai Penyuluhan KB</p>
-        <p><strong>Periode:</strong> 4 Feb 2026 - 30 Jun 2026</p>
+        <p><strong>Nama:</strong> ${profile.name || "Fazlur Rahman"}</p>
+        <p><strong>Perusahaan:</strong> ${profile.location || "Balai Penyuluhan KB"}</p>
+        <p><strong>Periode:</strong> ${formatDateShort(profile.startDate || "2026-02-04")} - ${formatDateShort(profile.endDate || "2026-06-30")}</p>
       </div>
       <table>
         <thead>

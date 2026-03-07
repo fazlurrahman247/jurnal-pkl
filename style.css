@@ -134,6 +134,188 @@ body {
   transform: translateY(0);
 }
 
+/* ===== Navbar ===== */
+.navbar {
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-dark) 100%
+  );
+  border-radius: var(--radius);
+  padding: 15px 25px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.navbar-brand i {
+  font-size: 24px;
+}
+
+.navbar-toggle {
+  display: none;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: white;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 18px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.navbar-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+}
+
+.navbar-avatar {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+}
+
+.navbar-profile-info {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.navbar-profile-info span {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.navbar-profile-info small {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.navbar-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.navbar-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.navbar-link.active {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+.navbar-toolbar {
+  display: flex;
+  gap: 8px;
+}
+
+.navbar-toolbar .toolbar-btn {
+  width: 36px;
+  height: 36px;
+  font-size: 14px;
+}
+
+/* ===== Modal Header ===== */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.modal-close:hover {
+  color: var(--text-primary);
+}
+
+/* ===== Profile Form ===== */
+.profile-form .form-group {
+  margin-bottom: 15px;
+}
+
+.profile-form .form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+}
+
+.profile-form .form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
 /* ===== Buttons ===== */
 .btn {
   padding: 12px 24px;
@@ -556,6 +738,66 @@ a.btn {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
+  .navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    gap: 15px;
+  }
+
+  .navbar-brand {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .navbar-brand i {
+    font-size: 20px;
+  }
+
+  .navbar-toggle {
+    display: flex !important;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .navbar-menu.active {
+    display: flex;
+  }
+
+  .navbar-profile {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar-toolbar {
+    width: 100%;
+    justify-content: center;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
   .header {
     flex-direction: column;
     text-align: center;
@@ -607,6 +849,10 @@ a.btn {
 @media print {
   body {
     background: white;
+  }
+
+  .navbar {
+    display: none !important;
   }
 
   .header {
