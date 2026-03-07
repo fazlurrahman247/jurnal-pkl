@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entry Jurnal PKL - Fazlur Rahman</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Navbar -->
+      <header class="navbar">
+        <div class="navbar-brand">
+          <i class="fas fa-book-open"></i>
+          <span>Jurnal PKL</span>
+        </div>
+        <button class="navbar-toggle" onclick="toggleNavbar()">
+          <i class="fas fa-bars"></i>
+        </button>
+        <nav class="navbar-menu" id="navbarMenu">
+          <div class="navbar-profile">
+            <div class="navbar-avatar">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="navbar-profile-info">
+              <span id="displayName">Fazlur Rahman</span>
+              <small id="displayLocation">Balai Penyuluhan KB</small>
+            </div>
+          </div>
+          <div class="navbar-links">
+            <a href="entry.html" class="navbar-link active">
+              <i class="fas fa-plus-circle"></i> Entri
+            </a>
+            <a href="history.html" class="navbar-link">
+              <i class="fas fa-history"></i> Riwayat
+            </a>
+            <button class="navbar-link" onclick="openProfileModal()">
+              <i class="fas fa-cog"></i> Profil
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Form Section -->
+        <section class="card form-section">
+          <div class="card-header">
+            <h2><i class="fas fa-pen-fancy"></i> Entri Jurnal Harian</h2>
+          </div>
+          <form id="journalForm" class="journal-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="date"
+                  ><i class="fas fa-calendar"></i> Tanggal</label
+                >
+                <input type="date" id="date" name="date" required />
+              </div>
+              <div class="form-group">
+                <label for="status"
+                  ><i class="fas fa-user-check"></i> Status Kehadiran</label
+                >
+                <select id="status" name="status" required>
+                  <option value="Hadir">Hadir</option>
+                  <option value="Izin">Izin</option>
+                  <option value="Sakit">Sakit</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="arrivalTime"
+                  ><i class="fas fa-sign-in-alt"></i> Jam Datang</label
+                >
+                <input type="time" id="arrivalTime" name="arrivalTime" />
+              </div>
+              <div class="form-group">
+                <label for="departureTime"
+                  ><i class="fas fa-sign-out-alt"></i> Jam Pulang</label
+                >
+                <input type="time" id="departureTime" name="departureTime" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="task"
+                ><i class="fas fa-tasks"></i> Tugas yang Disuruh</label
+              >
+              <textarea
+                id="task"
+                name="task"
+                rows="4"
+                placeholder="Tuliskan tugas yang diperintahkan oleh pembimbing..."
+              ></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Simpan Entri
+              </button>
+              <button
+                type="reset"
+                class="btn btn-outline"
+                onclick="resetForm()"
+              >
+                <i class="fas fa-undo"></i> Reset
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>© 2026 Jurnal PKL - Fazlur Rahman | Balai Penyuluhan KB</p>
+      </footer>
+    </div>
+
+    <script src="script-entry.js"></script>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-user-edit"></i> Ubah Profil</h3>
+          <button class="modal-close" onclick="closeProfileModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form id="profileForm" class="profile-form">
+          <div class="form-group">
+            <label for="profileNameInput">
+              <i class="fas fa-user"></i> Nama Lengkap
+            </label>
+            <input
+              type="text"
+              id="profileNameInput"
+              class="form-input"
+              placeholder="Masukkan nama lengkap"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="profileLocationInput">
+              <i class="fas fa-building"></i> Lokasi PKL
+            </label>
+            <input
+              type="text"
+              id="profileLocationInput"
+              class="form-input"
+              placeholder="Masukkan lokasi PKL"
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="profileStartDateInput">
+                <i class="fas fa-calendar-plus"></i> Tanggal Mulai
+              </label>
+              <input
+                type="date"
+                id="profileStartDateInput"
+                class="form-input"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="profileEndDateInput">
+                <i class="fas fa-calendar-check"></i> Tanggal Selesai
+              </label>
+              <input
+                type="date"
+                id="profileEndDateInput"
+                class="form-input"
+                required
+              />
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Simpan
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeProfileModal()"
+            >
+              <i class="fas fa-times"></i> Batal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
