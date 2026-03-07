@@ -18,27 +18,37 @@
   </head>
   <body>
     <div class="container">
-      <!-- Header -->
-      <header class="header">
-        <div class="profile-section">
-          <div class="avatar">
-            <i class="fas fa-user-graduate"></i>
-          </div>
-          <div class="profile-info">
-            <h1>Fazlur Rahman</h1>
-            <p class="company">
-              <i class="fas fa-building"></i> Balai Penyuluhan KB
-            </p>
-            <p class="duration">
-              <i class="fas fa-calendar-alt"></i> 4 Feb 2026 - 30 Jun 2026
-            </p>
-          </div>
+      <!-- Navbar -->
+      <header class="navbar">
+        <div class="navbar-brand">
+          <i class="fas fa-book-open"></i>
+          <span>Jurnal PKL</span>
         </div>
-        <div class="header-actions">
-          <a href="entry.html" class="btn btn-primary">
-            <i class="fas fa-plus-circle"></i> Entri Baru
-          </a>
-          <div class="action-toolbar">
+        <button class="navbar-toggle" onclick="toggleNavbar()">
+          <i class="fas fa-bars"></i>
+        </button>
+        <nav class="navbar-menu" id="navbarMenu">
+          <div class="navbar-profile">
+            <div class="navbar-avatar">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="navbar-profile-info">
+              <span id="displayName">Fazlur Rahman</span>
+              <small id="displayLocation">Balai Penyuluhan KB</small>
+            </div>
+          </div>
+          <div class="navbar-links">
+            <a href="entry.html" class="navbar-link">
+              <i class="fas fa-plus-circle"></i> Entri
+            </a>
+            <a href="history.html" class="navbar-link active">
+              <i class="fas fa-history"></i> Riwayat
+            </a>
+            <button class="navbar-link" onclick="openProfileModal()">
+              <i class="fas fa-cog"></i> Profil
+            </button>
+          </div>
+          <div class="navbar-toolbar">
             <button
               class="toolbar-btn"
               onclick="exportToPDF()"
@@ -78,10 +88,7 @@
               <i class="fas fa-print"></i>
             </button>
           </div>
-          <a href="history.html" class="btn btn-secondary">
-            <i class="fas fa-history"></i> Riwayat
-          </a>
-        </div>
+        </nav>
       </header>
 
       <!-- Main Content -->
@@ -215,5 +222,78 @@
     </div>
 
     <script src="script-history.js"></script>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-user-edit"></i> Ubah Profil</h3>
+          <button class="modal-close" onclick="closeProfileModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form id="profileForm" class="profile-form">
+          <div class="form-group">
+            <label for="profileNameInput">
+              <i class="fas fa-user"></i> Nama Lengkap
+            </label>
+            <input
+              type="text"
+              id="profileNameInput"
+              class="form-input"
+              placeholder="Masukkan nama lengkap"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="profileLocationInput">
+              <i class="fas fa-building"></i> Lokasi PKL
+            </label>
+            <input
+              type="text"
+              id="profileLocationInput"
+              class="form-input"
+              placeholder="Masukkan lokasi PKL"
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="profileStartDateInput">
+                <i class="fas fa-calendar-plus"></i> Tanggal Mulai
+              </label>
+              <input
+                type="date"
+                id="profileStartDateInput"
+                class="form-input"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="profileEndDateInput">
+                <i class="fas fa-calendar-check"></i> Tanggal Selesai
+              </label>
+              <input
+                type="date"
+                id="profileEndDateInput"
+                class="form-input"
+                required
+              />
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Simpan
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeProfileModal()"
+            >
+              <i class="fas fa-times"></i> Batal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
